@@ -1,4 +1,4 @@
-FROM hoanglehaithanh/hadoop-docker-base
+FROM hpccbk/hadoop-docker-base
 
 LABEL author=thanhhoang@hcmut.edu.vn
 

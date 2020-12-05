@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+  app:
+    image: hpccbk/hadoop-docker-spark
+    env_file:
+      - ../hadoop.env
+    networks:
+      - hadoop-net
+networks:
+  hadoop-net:
+    external:
+      name: hadoop_hadoop
