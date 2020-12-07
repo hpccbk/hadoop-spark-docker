@@ -39,6 +39,9 @@ services:
       mode: global
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.hostname != headnode.supernodexp.hpc
       labels:
         traffic.docker.network: hadoop
         traffic.port: 9864
@@ -81,6 +84,9 @@ services:
       mode: global
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.hostname != headnode.supernodexp.hpc
       labels:
         traffic.docker.network: hadoop
         traffic.port: 8042

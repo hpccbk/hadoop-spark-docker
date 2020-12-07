@@ -1,4 +1,4 @@
-FROM hpccbk/hadoop-docker-base
+FROM hpccbk/hadoop-docker-base:3.2.1
 
 LABEL author=thanhhoang@hcmut.edu.vn
 

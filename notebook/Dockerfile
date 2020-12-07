@@ -1,4 +1,4 @@
-FROM hpccbk/hadoop-docker-spark
+FROM hpccbk/hadoop-docker-base:3.2.1
 
 LABEL maintainer="Thanh Hoang Le Hai, HPC Lab HCMUT (thanhhoang@hcmut.edu.vn)"
 
@@ -11,17 +11,15 @@ RUN curl -fSL https://mirror.downloadvn.com/apache/zeppelin/zeppelin-${ZEPPELIN_
 
 ENV PATH=zeppelin/bin:$PATH
 
+ENV PYSPARK_PYTHON=python3
+
+ENV PYSPARK_DRIVER_PYTHON=python3
+
 ENV SPARK_HOME=/spark
 
+ENV SPARK_MASTER=yarn
+
 ENV ZEPPELIN_ADDR=0.0.0.0
-
-RUN apt install -y python
-
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-
-RUN python3 get-pip.py
-
-RUN pip install --upgrade ipython
 
 EXPOSE 8080
 
