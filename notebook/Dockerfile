@@ -1,4 +1,4 @@
-FROM hpccbk/hadoop-docker-base:3.2.1
+FROM hpccbk/hadoop-docker-base:2.7.2
 
 LABEL maintainer="Thanh Hoang Le Hai, HPC Lab HCMUT (thanhhoang@hcmut.edu.vn)"
 

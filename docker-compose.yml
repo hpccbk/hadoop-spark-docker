@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   namenode:
-    image: hpccbk/hadoop-docker-namenode:3.2.1
+    image: hpccbk/hadoop-docker-namenode:2.7.2
     networks:
       - hadoop
     volumes:
@@ -10,7 +10,7 @@ services:
     environment:
       - CLUSTER_NAME=hpccbk
     ports:
-      - 9870:9870
+      - 50070:50070
     env_file:
       - ./hadoop.env
     deploy:
@@ -23,10 +23,10 @@ services:
           - node.role == manager
       labels:
         traffic.docker.network: hadoop
-        traffic.port: 9870
+        traffic.port: 50070
 
   datanode:
-    image: hpccbk/hadoop-docker-datanode:3.2.1
+    image: hpccbk/hadoop-docker-datanode:2.7.2
     networks:
       - hadoop
     volumes:
@@ -34,7 +34,9 @@ services:
     env_file:
       - ./hadoop.env
     environment:
-      SERVICE_PRECONDITION: "namenode:9870"
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - 50075:50075
     deploy:
       mode: global
       restart_policy:
@@ -44,14 +46,14 @@ services:
           - node.hostname != headnode.supernodexp.hpc
       labels:
         traffic.docker.network: hadoop
-        traffic.port: 9864
+        traffic.port: 50075
 
   resourcemanager:
-    image: hpccbk/hadoop-docker-resourcemanager:3.2.1
+    image: hpccbk/hadoop-docker-resourcemanager:2.7.2
     networks:
       - hadoop
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:9864"
     env_file:
       - ./hadoop.env
     ports:
@@ -71,11 +73,11 @@ services:
       disable: true
 
   nodemanager:
-    image: hpccbk/hadoop-docker-nodemanager:3.2.1
+    image: hpccbk/hadoop-docker-nodemanager:2.7.2
     networks:
       - hadoop
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
     ports:
@@ -92,13 +94,13 @@ services:
         traffic.port: 8042
 
   historyserver:
-    image: hpccbk/hadoop-docker-historyserver:3.2.1
+    image: hpccbk/hadoop-docker-historyserver:2.7.2
     networks:
       - hadoop
     volumes:
       - hadoop_historyserver:/hadoop/yarn/timeline
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
     ports:
@@ -114,7 +116,7 @@ services:
         traffic.port: 8188
 
   notebook:
-    image: hpccbk/hadoop-docker-notebook:3.2.1
+    image: hpccbk/hadoop-docker-notebook:2.7.2
     networks:
       - hadoop
     env_file:
