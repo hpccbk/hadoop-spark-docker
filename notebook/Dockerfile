@@ -19,8 +19,10 @@ ENV SPARK_HOME=/spark
 
 ENV SPARK_MASTER=yarn
 
-ENV ZEPPELIN_ADDR=0.0.0.0
+ADD zeppelin-site.xml /zeppelin/conf/zeppelin-site.xml
+
+ADD start.sh /start.sh
 
 EXPOSE 8080
 
-CMD ["zeppelin.sh"]
+CMD ["/start.sh"]

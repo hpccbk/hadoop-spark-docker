@@ -121,6 +121,8 @@ services:
       - hadoop
     env_file:
       - ./hadoop.env
+    volumes:
+      - ./shiro.ini:/zeppelin/conf/shiro.ini
     ports:
       - 8001:8080
     deploy:
