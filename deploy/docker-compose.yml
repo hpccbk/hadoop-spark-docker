@@ -53,7 +53,7 @@ services:
     networks:
       - hadoop
     environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:9864"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
     env_file:
       - ./hadoop.env
     ports:
@@ -77,7 +77,7 @@ services:
     networks:
       - hadoop
     environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
     env_file:
       - ./hadoop.env
     ports:
@@ -93,38 +93,36 @@ services:
         traffic.docker.network: hadoop
         traffic.port: 8042
 
-  historyserver:
-    image: hpccbk/hadoop-docker-historyserver:2.7.2
-    networks:
-      - hadoop
-    volumes:
-      - hadoop_historyserver:/hadoop/yarn/timeline
-    environment:
-      SERVICE_PRECONDITION: "namenode:50070 datanode:9864 resourcemanager:8088"
-    env_file:
-      - ./hadoop.env
-    ports:
-      - 8188:8188
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      labels:
-        traffic.docker.network: hadoop
-        traffic.port: 8188
+  # historyserver:
+  #   image: hpccbk/hadoop-docker-historyserver:2.7.2
+  #   networks:
+  #     - hadoop
+  #   volumes:
+  #     - hadoop_historyserver:/hadoop/yarn/timeline
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
+  #   env_file:
+  #     - ./hadoop.env
+  #   ports:
+  #     - 8188:8188
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints:
+  #         - node.role == manager
+  #     labels:
+  #       traffic.docker.network: hadoop
+  #       traffic.port: 8188
 
   notebook:
     image: hpccbk/hadoop-docker-notebook:2.7.2
     networks:
       - hadoop
-      - supernode_xp
     env_file:
       - ./hadoop.env
     volumes:
       - ./shiro.ini:/zeppelin/conf/shiro.ini
-      - ./interpreter.json:/zeppelin/conf/interpreter.json
     ports:
       - 8001:8080
     deploy:
@@ -140,12 +138,10 @@ services:
 volumes:
   datanode:
   namenode:
-  hadoop_historyserver:
+  # hadoop_historyserver:
 
 networks:
   hadoop:
     driver: overlay
     # Option for user to submit their jobs outside the cluster
     attachable: true
-  supernode_xp:
-    network_mode: host

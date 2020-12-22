@@ -5,7 +5,7 @@ run-sparkpi:
 		--deploy-mode client \
 		--executor-memory 4G \
 		--num-executors 4 \
-		/spark/examples/jars/spark-examples_2.12-3.0.1.jar \
+		/spark/examples/jars/spark-examples_2.11-2.4.7.jar\
 		 1000
 
 
