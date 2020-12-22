@@ -119,6 +119,7 @@ services:
     image: hpccbk/hadoop-docker-notebook:2.7.2
     networks:
       - hadoop
+      - supernode_xp
     env_file:
       - ./hadoop.env
     volumes:
@@ -146,3 +147,5 @@ networks:
     driver: overlay
     # Option for user to submit their jobs outside the cluster
     attachable: true
+  supernode_xp:
+    network_mode: host
