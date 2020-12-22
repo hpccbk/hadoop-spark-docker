@@ -123,6 +123,7 @@ services:
       - ./hadoop.env
     volumes:
       - ./shiro.ini:/zeppelin/conf/shiro.ini
+      - ./interpreter.json:/zeppelin/conf/interpreter.json
     ports:
       - 8001:8080
     deploy:
